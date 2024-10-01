@@ -1,117 +1,79 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../utils/fbase"; // Import the Firestore instance
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
-export const dataset = [
-  {
-    london: 59,
-    paris: 57,
-    newYork: 86,
-    seoul: 21,
-    month: "Jan",
-  },
-  {
-    london: 50,
-    paris: 52,
-    newYork: 78,
-    seoul: 28,
-    month: "Feb",
-  },
-  {
-    london: 47,
-    paris: 53,
-    newYork: 106,
-    seoul: 41,
-    month: "Mar",
-  },
-  {
-    london: 54,
-    paris: 56,
-    newYork: 92,
-    seoul: 73,
-    month: "Apr",
-  },
-  {
-    london: 57,
-    paris: 69,
-    newYork: 92,
-    seoul: 99,
-    month: "May",
-  },
-  {
-    london: 60,
-    paris: 63,
-    newYork: 103,
-    seoul: 144,
-    month: "June",
-  },
-  {
-    london: 59,
-    paris: 60,
-    newYork: 105,
-    seoul: 319,
-    month: "July",
-  },
-  {
-    london: 65,
-    paris: 60,
-    newYork: 106,
-    seoul: 249,
-    month: "Aug",
-  },
-  {
-    london: 51,
-    paris: 51,
-    newYork: 95,
-    seoul: 131,
-    month: "Sept",
-  },
-  {
-    london: 60,
-    paris: 65,
-    newYork: 97,
-    seoul: 55,
-    month: "Oct",
-  },
-  {
-    london: 67,
-    paris: 64,
-    newYork: 76,
-    seoul: 48,
-    month: "Nov",
-  },
-  {
-    london: 61,
-    paris: 70,
-    newYork: 103,
-    seoul: 25,
-    month: "Dec",
-  },
-];
-
-export function valueFormatter(value: number | null) {
-  return `${value}mm`;
-}
-
 const ChartDashboard = () => {
-    
+  const [usersData, setUsersData] = useState([]);
+  const [jobData, setJobData] = useState([]);
+  const [platformUsageData, setPlatformUsageData] = useState([]);
 
-    const chartSetting = {
-      yAxis: [
-        {
-          label: "rainfall (mm)",
-        },
-      ],
-      width: 500,
-      height: 300,
-      sx: {
-        [`.${axisClasses.left} .${axisClasses.label}`]: {
-          transform: "translate(-20px, 0)",
-        },
-      },
+  // Fetch data from Firestore
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch user data from the "users" collection
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const users = [];
+        const jobs = [];
+        const platforms = [];
+
+        const jobsType = [
+          { id: "defence", value: 0, label: "Defence" },
+          { id: "dataAnalytics", value: 0, label: "Data Analytics" },
+          { id: "other", value: 0, label: "Others" },
+        ];
+        const platformTypes = [
+          { platform: "facebook", value: 0 },
+          { platform: "instagram", value: 0 },
+          { platform: "whatsapp", value: 0 },
+        ];
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          users.push(data);
+          jobsType.map((jo) => {
+            if (data.jobType === jo.id) {
+              jo.value += 1;
+            }
+          });
+          platformTypes.map((pt) => {
+            if (data.platforms.includes(pt.platform)) {
+              pt.value += 1;
+            }
+          });
+        });
+        console.log(platformTypes);
+
+        setUsersData(users);
+        setJobData(jobsType);
+        setPlatformUsageData(platformTypes);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     };
+
+    fetchData();
+  }, []);
+
+  const chartSetting = {
+    yAxis: [
+      {
+        label: "rainfall (mm)",
+      },
+    ],
+    width: 500,
+    height: 300,
+    sx: {
+      [`.${axisClasses.left} .${axisClasses.label}`]: {
+        transform: "translate(-20px, 0)",
+      },
+    },
+  };
+
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -125,10 +87,10 @@ const ChartDashboard = () => {
             No. of Users
           </h1>
           <LineChart
-            xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+            xAxis={[{ data: [1, 2, 3, 5, 8, 10, 11,12,13,14,15,16,17] }]}
             series={[
               {
-                data: [2, 5.5, 2, 8.5, 1.5, 5],
+                data: usersData.map((_, index) => index + 1), // Using the user data length as an example
               },
             ]}
             height={300}
@@ -153,13 +115,7 @@ const ChartDashboard = () => {
               <PieChart
                 series={[
                   {
-                    data: [
-                      { id: 0, value: 10, label: "Series A" },
-                      { id: 1, value: 15, label: "Series B" },
-                      { id: 2, value: 20, label: "Series C" },
-                      { id: 3, value: 20, label: "Series D" },
-                      { id: 4, value: 50, label: "Series E" },
-                    ],
+                    data: jobData,
                   },
                 ]}
                 width={400}
@@ -173,14 +129,9 @@ const ChartDashboard = () => {
                 Platform Usage
               </h2>
               <BarChart
-                dataset={dataset}
-                xAxis={[{ scaleType: "band", dataKey: "month" }]}
-                series={[
-                  { dataKey: "london", label: "London" },
-                  { dataKey: "paris", label: "Paris" },
-                  { dataKey: "newYork", label: "New York" },
-                  { dataKey: "seoul", label: "Seoul" },
-                ]}
+                dataset={platformUsageData}
+                xAxis={[{ scaleType: "band", dataKey: "platform" }]}
+                series={[{ dataKey: "value", label: "Usage" }]}
                 {...chartSetting}
               />
             </div>
@@ -189,7 +140,6 @@ const ChartDashboard = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ChartDashboard
-
+export default ChartDashboard;

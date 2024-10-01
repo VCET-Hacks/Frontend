@@ -37,7 +37,7 @@ export default function UserForm() {
 
     setTimeout(() => {
       setToast(null);
-    }, 3000); // Auto-close after 3 seconds
+    }, 5000); // Auto-close after 3 seconds
   };
 
   const handleChange = (
@@ -73,6 +73,7 @@ export default function UserForm() {
       lastName: formData.lastName,
       platforms: formData.platforms,
       remark: formData.remark,
+      signinTime: new Date().toISOString(),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
     showToast("Success!!", "Name Added to Waitlist Successfully");

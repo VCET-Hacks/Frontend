@@ -14,8 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/user-table" element={<UserTable />} />
-        <Route path="/user-form" element={<UserForm />} />
         <Route path="/user-chart-dashboard" element={<ChartDashboard />} />
+        <Route path="/user-form" element={<UserForm />} />
 
         <Route path="/facebook-dashboard/:id" element={<FBDashboard />} />
         <Route path="/facebook" element={<MetaPageInfo />} />
