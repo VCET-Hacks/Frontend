@@ -2,6 +2,7 @@ import { db } from "@/utils/fbase";
 import Toast from "@/utils/toast";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import Confetti from "react-confetti";
 
 interface FormData {
   firstName: string;
@@ -13,6 +14,7 @@ interface FormData {
 }
 
 export default function UserForm() {
+  const { width, height } = window.screen;
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -72,11 +74,13 @@ export default function UserForm() {
       platforms: formData.platforms,
       remark: formData.remark,
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     showToast("Success!!", "Name Added to Waitlist Successfully");
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {toast && <Confetti width={width-25} height={height-25} className="m-auto"/>}
       <div className="space-y-6 h-auto w-auto pl-[300px] pr-[300px] py-[100px] bg-gray-100">
         <div className="border-b border-gray-900/10 pb-4 max-w-[450px] m-auto bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-4xl font-bold leading-7 text-gray-900 pb-5">
@@ -169,7 +173,7 @@ export default function UserForm() {
                       type="radio"
                       name="jobType"
                       value="dataAnalytics"
-                      checked={formData.jobType === "other"}
+                      checked={formData.jobType === "dataAnalytics"}
                       onChange={handleChange}
                       className="mr-2"
                     />
@@ -180,7 +184,7 @@ export default function UserForm() {
                       type="radio"
                       name="jobType"
                       value="engineer"
-                      checked={formData.jobType === "other"}
+                      checked={formData.jobType === "engineer"}
                       onChange={handleChange}
                       className="mr-2"
                     />
