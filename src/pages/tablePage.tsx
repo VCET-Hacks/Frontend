@@ -21,6 +21,10 @@ import {
 } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Linkedin, Mail, Phone, MessageSquare, Star, MoreHorizontal } from "lucide-react"
+import { FaTelegram } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io5";
+import { FaXTwitter } from "react-icons/fa6";
 
 // Mock data for demonstration
 const users = [
@@ -144,17 +148,22 @@ export default function UserTable() {
                   <TableCell>{user.company}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Linkedin className="w-4 h-4" />
+                      <FaFacebookSquare className="w-4 h-4" />
+                      <FaTelegram className="w-4 h-4" />
+                      <IoLogoWhatsapp className="w-4 h-4" />
+                      {/* <Linkedin /> */}
+
+                      {/* <Mail className="w-4 h-4" /> */}
+                      {/* <Phone className="w-4 h-4" /> */}
+                      {/* <MessageSquare className="w-4 h-4" /> */}
+                      <FaXTwitter className="w-4 h-4"/>
                       <Mail className="w-4 h-4" />
-                      <Phone className="w-4 h-4" />
-                      <MessageSquare className="w-4 h-4" />
-                      <Star className="w-4 h-4" />
                       <MoreHorizontal className="w-4 h-4" />
                     </div>
                   </TableCell>
                   {/* <TableCell>{user.location}</TableCell> */}
                   <TableCell>
-                    <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                    <button className="bg-white hover:bg-stone-200 hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ">
                       Review
                     </button>
                   </TableCell>
