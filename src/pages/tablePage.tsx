@@ -20,36 +20,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Linkedin, Mail, Phone, MessageSquare, Star, MoreHorizontal } from "lucide-react"
 import { FaTelegram } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import { FaXTwitter } from "react-icons/fa6";
+import { Badge } from "@/components/ui/badge"
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 // Mock data for demonstration
 const users = [
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  { id: 1, name: "Rashmi Mittal", position: "Founder", company: "Travelport", location: "Bahrain", connections: 110 },
-  { id: 2, name: "Jonathan Morrissons", position: "Sales Director", company: "Travelport", location: "Viet Nam", connections: 110 },
-  { id: 3, name: "Jacob Jones", position: "Regional Sales Director", company: "Bumanji Live", location: "Kiribati", connections: 45 },
-  // Add more user data here...
+  { id: 1, name: "Steve Fernandes", position: "Mumbai", description: "Person constantly talks badly about people and other agencies".slice(0,45) + "..." , company: "Hate Speech", location: "Hate Speech", connections: 110 },
+// Add more user data here...
 ]
 
 export default function UserTable() {
@@ -74,8 +55,8 @@ export default function UserTable() {
   return (
     <div className="flex h-1/2 p-7 w-full bg-gray-100">
       {/* Sidebar */}
-      <div className="w-56 bg-white shadow-2xl overflow-y-auto  pl-3 h-80">
-        <h2 className="text-lg font-semibold mb-4">Filters</h2>
+      <div className="w-56 bg-white shadow-2xl overflow-y-auto  p-6 rounded-xl h-fit mr-5">
+        <h2 className="text-lg font-bold mb-4 uppercase">Filters</h2>
         <div className="space-y-4">
           {["Lists", "Contact", "Company"].map((filter) => (
             <div key={filter}>
@@ -96,7 +77,9 @@ export default function UserTable() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 p-6 overflow-hidden bg-white shadow-2xl">
+      <div className="flex-1 p-6 overflow-hidden bg-white shadow-2xl rounded-xl">
+      <h2 className="text-xl font-normal">Panchanama</h2>
+      <h2 className="text-4xl font-bold uppercase mb-7">Reported Users</h2>
         <div className="mb-4 flex justify-between items-center">
           <Input
             placeholder="Filter results..."
@@ -110,11 +93,11 @@ export default function UserTable() {
           </div>
         </div>
 
-        <ScrollArea className="h-[calc(100vh-8rem)]">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[40px]">
+        <ScrollArea className="h-[calc(100vh-12rem)]">
+          <Table >
+            <TableHeader className="rounded-xl overflow-clip">
+              <TableRow className="bg-[#f4f4f5] rounded-xl shadow-md">
+                <TableHead className="flex-1 ">
                   <Checkbox
                     checked={selectedUsers.length === filteredUsers.length}
                     onCheckedChange={() =>
@@ -129,8 +112,8 @@ export default function UserTable() {
                 <TableHead>Name</TableHead>
                 <TableHead>Location</TableHead>
                 <TableHead>Violation Type</TableHead>
+                <TableHead>Description</TableHead>
                 <TableHead>Platforms</TableHead>
-                {/* <TableHead>Location</TableHead> */}
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -144,8 +127,9 @@ export default function UserTable() {
                     />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.position}</TableCell>
-                  <TableCell>{user.company}</TableCell>
+                  <TableCell>{user.position}</TableCell><TableCell>
+                    <Badge>{user.company}</Badge></TableCell>
+                  <TableCell>{user.description}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <FaFacebookSquare className="w-4 h-4" />
@@ -157,8 +141,6 @@ export default function UserTable() {
                       {/* <Phone className="w-4 h-4" /> */}
                       {/* <MessageSquare className="w-4 h-4" /> */}
                       <FaXTwitter className="w-4 h-4"/>
-                      <Mail className="w-4 h-4" />
-                      <MoreHorizontal className="w-4 h-4" />
                     </div>
                   </TableCell>
                   {/* <TableCell>{user.location}</TableCell> */}
