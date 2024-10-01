@@ -1,5 +1,6 @@
 import "./App.css";
 import UserForm from "./components/others/UserForm";
+import ChartDashboard from "./pages/ChartDashboard";
 import FBDashboard from "./pages/facebookProfile";
 import HomePage from "./pages/HomePage";
 import UserTable from "./pages/tablePage";
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/user-table" element={<UserTable />} />
         <Route path="/user-form" element={<UserForm />} />
+        <Route path="/user-chart-dashboard" element={<ChartDashboard />} />
 
         <Route path="/facebook-dashboard/:id" element={<FBDashboard />} />
         <Route path="/facebook" element={<MetaPageInfo />} />
