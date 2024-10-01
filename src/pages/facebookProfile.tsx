@@ -55,9 +55,61 @@ export default function FBDashboard() {
     birthday: "12/18/2002",
     id: "122100353528550580",
   };
+
+  const getToxicity = () => {
+    console.log(
+      JSON.stringify({
+        sentences: userPosts
+          .map((post) => post.message)
+          .filter((message) => message !== null), // Filter out null messages
+      })
+    );
+    fetch("http://localhost:5000/classify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Add Content-Type header
+      },
+      body: JSON.stringify({
+        sentences: userPosts
+          .map((post) => post.message || "")
+          .filter((message) => message !== null), // Filter out null messages
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok"); // Handle network errors
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data); // Handle the returned data
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error); // Handle any errors
+      });
+  };
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Left Sidebar */}
+      <button
+        onClick={getToxicity}
+        className="fixed bottom-5 right-5  z-30 flex items-center justify-start gap-2 w-fit pr-5 h-10 bg-black rounded-full text-white hover:text-black font-semibold border-none cursor-pointer shadow-md pl-2 transition-all duration-300 hover:bg-[#C0FF14] hover:opacity-80 active:scale-95"
+      >
+        <svg
+          className="h-6 transition-transform duration-150"
+          viewBox="0 0 512 512"
+          height="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+            className="fill-[#fff] hover:fill[#000]"
+          />
+        </svg>
+        Panchanama.ai
+      </button>
+
       <aside className="w-64 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-r border-gray-200">
         <div className="font-bold text-4xl mb-6 text-black uppercase">
           Report
