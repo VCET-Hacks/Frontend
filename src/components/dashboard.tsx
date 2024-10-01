@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CalendarIcon, HomeIcon, MessageSquareIcon, SettingsIcon, UserIcon, BellIcon, SearchIcon, TrendingUpIcon } from "lucide-react"
+import { CalendarIcon, HomeIcon, MessageSquareIcon, SettingsIcon, UserIcon, BellIcon, SearchIcon } from "lucide-react"
 
 export function DashboardComponent() {
   return (

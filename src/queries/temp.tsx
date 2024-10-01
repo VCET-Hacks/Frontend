@@ -1,8 +1,8 @@
-import { FaceBookPostsData } from "@/types/facebook";
-import { useState, useEffect } from "react";
+// import { FaceBookPostsData } from "@/types/facebook";
+// import { useState, useEffect } from "react";
 
 const MetaPageInfo = () => {
-  const [posts, setPosts] = useState<FaceBookPostsData[]>([
+  const posts = [
     {
       created_time: "2024-10-01T10:50:09+0000",
       message: "This hackathon is teaching us a lot",
@@ -23,9 +23,31 @@ const MetaPageInfo = () => {
       message: "Yabe dabi dooo",
       id: "122100353528550580_122100337370550580",
     },
-  ]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  ]
+  // const [posts, setPosts] = useState<FaceBookPostsData[]>([
+  //   {
+  //     created_time: "2024-10-01T10:50:09+0000",
+  //     message: "This hackathon is teaching us a lot",
+  //     id: "122100353528550580_122100464114550580",
+  //   },
+  //   {
+  //     created_time: "2024-10-01T08:19:57+0000",
+  //     message: "This hackathon is lit",
+  //     id: "122100353528550580_122100379754550580",
+  //   },
+  //   {
+  //     created_time: "2024-10-01T07:36:40+0000",
+  //     message: "Yabe dabi dooo",
+  //     id: "122100353528550580_122100356852550580",
+  //   },
+  //   {
+  //     created_time: "2002-12-18T08:00:00+0000",
+  //     message: "Yabe dabi dooo",
+  //     id: "122100353528550580_122100337370550580",
+  //   },
+  // ]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
 
   // useEffect(() => {
   //   // Define the endpoint and the access token
@@ -52,8 +74,8 @@ const MetaPageInfo = () => {
   //     });
   // }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   return (
     <div>

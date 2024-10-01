@@ -6,10 +6,23 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "../utils/fbase"; // Import the Firestore instance
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
+type UserData = {
+  email: string;
+  firstname: string;
+  jobType: "defence" | "dataAnalytics" | "other";
+  lastname: string;
+  platforms: ("facebook" | "instagram" | "whatsapp")[];
+  remark: string;
+  signinTime: string;
+};
+type JobsTypes = { id: 'defence' | 'dataAnalytics' | 'other', value: number, label: string };
+
+type PlatformTypes = { platform: ("facebook" | "instagram" | "whatsapp"), value: number };
+
 const ChartDashboard = () => {
-  const [usersData, setUsersData] = useState([]);
-  const [jobData, setJobData] = useState([]);
-  const [platformUsageData, setPlatformUsageData] = useState([]);
+  const [usersData, setUsersData] = useState<UserData[]>([]);
+  const [jobData, setJobData] = useState<JobsTypes[]>([]);
+  const [platformUsageData, setPlatformUsageData] = useState<PlatformTypes[]>([]);
 
   // Fetch data from Firestore
   useEffect(() => {
@@ -17,23 +30,21 @@ const ChartDashboard = () => {
       try {
         // Fetch user data from the "users" collection
         const querySnapshot = await getDocs(collection(db, "users"));
-        const users = [];
-        const jobs = [];
-        const platforms = [];
+        const users: UserData[] = [];
 
-        const jobsType = [
+        const jobsType: JobsTypes[] = [
           { id: "defence", value: 0, label: "Defence" },
           { id: "dataAnalytics", value: 0, label: "Data Analytics" },
           { id: "other", value: 0, label: "Others" },
         ];
-        const platformTypes = [
+        const platformTypes: PlatformTypes[] = [
           { platform: "facebook", value: 0 },
           { platform: "instagram", value: 0 },
           { platform: "whatsapp", value: 0 },
         ];
 
         querySnapshot.forEach((doc) => {
-          const data = doc.data();
+          const data = doc.data() as UserData;
           users.push(data);
           jobsType.map((jo) => {
             if (data.jobType === jo.id) {
@@ -87,7 +98,7 @@ const ChartDashboard = () => {
             No. of Users
           </h1>
           <LineChart
-            xAxis={[{ data: [1, 2, 3, 5, 8, 10, 11,12,13,14,15,16,17] }]}
+            xAxis={[{ data: [1, 2, 3, 5, 8, 10, 11, 12, 13, 14, 15, 16, 17] }]}
             series={[
               {
                 data: usersData.map((_, index) => index + 1), // Using the user data length as an example
