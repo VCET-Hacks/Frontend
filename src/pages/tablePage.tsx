@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -11,49 +11,75 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaTelegram } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import { FaXTwitter } from "react-icons/fa6";
-import { Badge } from "@/components/ui/badge"
-import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Mock data for demonstration
 const users = [
-  { id: 1, name: "Steve Fernandes", position: "Mumbai", description: "Person constantly talks badly about people and other agencies".slice(0,45) + "..." , company: "Hate Speech", location: "Hate Speech", connections: 110 },
-// Add more user data here...
-]
+  {
+    id: 122100353528550580,
+    name: "Steve Fernandes",
+    position: "Mumbai",
+    description:
+      "Person constantly talks badly about people and other agencies",
+    company: "Hate Speech",
+    location: "Hate Speech",
+    connections: 110,
+  },
+  {
+    id: 12210035352855058,
+    name: "Steve Fernandes",
+    position: "Mumbai",
+    description:
+      "Person constantly talks badly about people and other agencies",
+    company: "Hate Speech",
+    location: "Hate Speech",
+    connections: 110,
+  },
+  // Add more user data here...
+];
 
 export default function UserTable() {
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([])
-  const [filter, setFilter] = useState("")
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [filter, setFilter] = useState("");
+  const navigate = useNavigate();
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(filter.toLowerCase()) ||
-    user.position.toLowerCase().includes(filter.toLowerCase()) ||
-    user.company.toLowerCase().includes(filter.toLowerCase()) ||
-    user.location.toLowerCase().includes(filter.toLowerCase())
-  )
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(filter.toLowerCase()) ||
+      user.position.toLowerCase().includes(filter.toLowerCase()) ||
+      user.company.toLowerCase().includes(filter.toLowerCase()) ||
+      user.location.toLowerCase().includes(filter.toLowerCase())
+  );
 
   const toggleUserSelection = (userId: number) => {
-    setSelectedUsers(prev =>
+    setSelectedUsers((prev) =>
       prev.includes(userId)
-        ? prev.filter(id => id !== userId)
+        ? prev.filter((id) => id !== userId)
         : [...prev, userId]
-    )
-  }
+    );
+  };
 
   return (
-    <div className="flex h-1/2 p-7 w-full bg-gray-100">
+    <div className="flex h-1/2 p-7 w-full bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Sidebar */}
       <div className="w-56 bg-white shadow-2xl overflow-y-auto  p-6 rounded-xl h-fit mr-5">
         <h2 className="text-lg font-bold mb-4 uppercase">Filters</h2>
@@ -78,8 +104,8 @@ export default function UserTable() {
 
       {/* Main content */}
       <div className="flex-1 p-6 overflow-hidden bg-white shadow-2xl rounded-xl">
-      <h2 className="text-xl font-normal">Panchanama</h2>
-      <h2 className="text-4xl font-bold uppercase mb-7">Reported Users</h2>
+        <h2 className="text-xl font-normal">Panchanama</h2>
+        <h2 className="text-4xl font-bold uppercase mb-7">Reported Users</h2>
         <div className="mb-4 flex justify-between items-center">
           <Input
             placeholder="Filter results..."
@@ -94,7 +120,7 @@ export default function UserTable() {
         </div>
 
         <ScrollArea className="h-[calc(100vh-12rem)]">
-          <Table >
+          <Table>
             <TableHeader className="rounded-xl overflow-clip">
               <TableRow className="bg-[#f4f4f5] rounded-xl shadow-md">
                 <TableHead className="flex-1 ">
@@ -127,9 +153,20 @@ export default function UserTable() {
                     />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.position}</TableCell><TableCell>
-                    <Badge>{user.company}</Badge></TableCell>
-                  <TableCell>{user.description}</TableCell>
+                  <TableCell>{user.position}</TableCell>
+                  <TableCell>
+                    <Badge>{user.company}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <p>{user.description.slice(0, 45) + "..."}</p>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{user.description}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <FaFacebookSquare className="w-4 h-4" />
@@ -140,12 +177,16 @@ export default function UserTable() {
                       {/* <Mail className="w-4 h-4" /> */}
                       {/* <Phone className="w-4 h-4" /> */}
                       {/* <MessageSquare className="w-4 h-4" /> */}
-                      <FaXTwitter className="w-4 h-4"/>
+                      <FaXTwitter className="w-4 h-4" />
                     </div>
                   </TableCell>
                   {/* <TableCell>{user.location}</TableCell> */}
                   <TableCell>
-                    <button className="bg-white hover:bg-stone-200 hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ">
+                    <button
+                      onClick={() => navigate(`/facebook-dashboard/${user.id}`)}
+                      type="button"
+                      className="bg-white hover:bg-stone-200 hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
+                    >
                       Review
                     </button>
                   </TableCell>
