@@ -17,8 +17,9 @@ export default function BentoGrid() {
                   Mobile friendly
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                  qui lorem cupidatat commodo.
+                  Effortlessly capture and document social media data on-the-go.
+                  Our tool's mobile-friendly design ensures that investigators
+                  can access and analyze information from any device, anytime.
                 </p>
               </div>
               <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
@@ -41,8 +42,9 @@ export default function BentoGrid() {
                   Performance
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit
-                  maiores impedit.
+                  Experience fast and efficient data retrieval, ensuring your
+                  investigations are thorough and timely without compromising
+                  accuracy.
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
@@ -63,8 +65,9 @@ export default function BentoGrid() {
                   Security
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Morbi viverra dui mi arcu sed. Tellus semper adipiscing
-                  suspendisse semper morbi.
+                  Protect sensitive data with advanced security measures,
+                  including encryption and secure backups, keeping your
+                  investigations safe from unauthorized access.
                 </p>
               </div>
               <div className="flex flex-1 items-center [container-type:inline-size] max-lg:py-6 lg:pb-2">

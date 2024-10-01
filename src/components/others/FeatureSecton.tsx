@@ -4,17 +4,24 @@ import {
   ServerIcon,
 } from "@heroicons/react/20/solid";
 
+
 const features = [
   {
-    name: "Push to deploy.",
+    name: "Automated Data Parsing:",
     description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.",
+      "Quickly gather posts, messages, timelines, friends, followers, and account info.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL certificates.",
+    name: "Secure Data Handling:",
     description:
-      "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.",
+      "Ensure high-level security with encrypted data access and storage.",
+    icon: LockClosedIcon,
+  },
+  {
+    name: "Multi-Platform Compatibility:",
+    description:
+      "Android and Windows versions ensure flexibility during investigations.",
     icon: LockClosedIcon,
   },
   {
@@ -33,15 +40,17 @@ export default function FeatureSection() {
           <div className="lg:pr-8 lg:pt-4">
             <div className="lg:max-w-lg">
               <h2 className="text-base font-semibold leading-7 text-indigo-600">
-                Deploy faster
+                Product
               </h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                A better workflow
+                Features
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Maiores impedit perferendis suscipit eaque, iste dolor
-                cupiditate blanditiis ratione.
+                Our tool streamlines the process of collecting and documenting
+                data from social media accounts, providing automated screenshots
+                of critical information such as posts, messages, followers,
+                timelines, and more. Available for both Android and Windows
+                platforms, it ensures seamless access and investigation.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (

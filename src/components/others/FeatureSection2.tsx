@@ -5,29 +5,31 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
+
+
 const features = [
   {
-    name: "Push to deploy",
+    name: "Performance",
     description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+      "Designed for fast data retrieval and processing, our tool helps investigators work quickly without sacrificing accuracy.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL certificates",
+    name: "Mobile Friendly:",
     description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
+      "Access your investigation tool on both mobile and desktop with ease, ensuring you never miss important data.",
     icon: LockClosedIcon,
   },
   {
-    name: "Simple queues",
+    name: "Data to Enrich Your Online Business",
     description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
+      "Unlock powerful insights with our social media parsing tool, designed to help investigators extract and review digital content from social platforms effortlessly. This tool ensures thorough data analysis and reporting, eliminating human error during the investigative process.",
     icon: ArrowPathIcon,
   },
   {
-    name: "Advanced security",
+    name: "Security",
     description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+      "Data security is our top priority. We provide advanced encryption and secure backups to protect your investigative findings.",
     icon: FingerPrintIcon,
   },
 ];
@@ -38,15 +40,17 @@ export default function FeatureSection2() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Deploy faster
+            Marketplace
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to deploy your app
+            Company
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            At Your Company, we are dedicated to empowering investigators with
+            the tools they need to efficiently and accurately gather digital
+            evidence from social media. Our mission is to create tools that
+            streamline the investigation process while maintaining the highest
+            level of security and accuracy.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
