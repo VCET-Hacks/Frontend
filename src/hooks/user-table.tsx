@@ -103,7 +103,7 @@ export default function UserTable() {
                   />
                 </TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead>Position</TableHead>
+                <TableHead>Harsh</TableHead>
                 <TableHead>Company</TableHead>
                 <TableHead>Actions</TableHead>
                 <TableHead>Location</TableHead>

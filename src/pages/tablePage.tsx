@@ -68,19 +68,19 @@ export default function UserTable() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-green-300">
+    <div className="flex h-1/2 p-7 w-full bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-100 p-4 overflow-y-auto">
+      <div className="w-56 bg-white shadow-2xl overflow-y-auto  pl-3 h-80">
         <h2 className="text-lg font-semibold mb-4">Filters</h2>
         <div className="space-y-4">
-          {["Lists", "Contact", "Company", "Engagement", "Data Source", "CRM", "Additional Filters"].map((filter) => (
+          {["Lists", "Contact", "Company"].map((filter) => (
             <div key={filter}>
               <h3 className="font-medium mb-2">{filter}</h3>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="Select..." />
                 </SelectTrigger>
-                <SelectContent> 
+                <SelectContent>
                   <SelectItem value="option1">Option 1</SelectItem>
                   <SelectItem value="option2">Option 2</SelectItem>
                   <SelectItem value="option3">Option 3</SelectItem>
@@ -92,7 +92,7 @@ export default function UserTable() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 p-4 overflow-hidden">
+      <div className="flex-1 p-6 overflow-hidden bg-white shadow-2xl">
         <div className="mb-4 flex justify-between items-center">
           <Input
             placeholder="Filter results..."
@@ -101,8 +101,8 @@ export default function UserTable() {
             className="max-w-sm"
           />
           <div className="space-x-2">
-            <Button variant="outline">Save</Button>
-            <Button>Send Email</Button>
+            <Button variant="outline">Store</Button>
+            <Button>Search </Button>
           </div>
         </div>
 
@@ -117,17 +117,17 @@ export default function UserTable() {
                       setSelectedUsers(
                         selectedUsers.length === filteredUsers.length
                           ? []
-                          : filteredUsers.map(user => user.id)
+                          : filteredUsers.map((user) => user.id)
                       )
                     }
                   />
                 </TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead>Position</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>Actions</TableHead>
                 <TableHead>Location</TableHead>
-                <TableHead>Connections</TableHead>
+                <TableHead>Violation Type</TableHead>
+                <TableHead>Platforms</TableHead>
+                {/* <TableHead>Location</TableHead> */}
+                <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -152,8 +152,12 @@ export default function UserTable() {
                       <MoreHorizontal className="w-4 h-4" />
                     </div>
                   </TableCell>
-                  <TableCell>{user.location}</TableCell>
-                  <TableCell>{user.connections}</TableCell>
+                  {/* <TableCell>{user.location}</TableCell> */}
+                  <TableCell>
+                    <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                      Review
+                    </button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -161,5 +165,5 @@ export default function UserTable() {
         </ScrollArea>
       </div>
     </div>
-  )
+  );
 }
