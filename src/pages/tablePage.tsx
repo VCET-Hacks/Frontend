@@ -185,7 +185,7 @@ export default function UserTable() {
                     <button
                       onClick={() => navigate(`/facebook-dashboard/${user.id}`)}
                       type="button"
-                      className="bg-white hover:bg-stone-200 hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
+                      className="bg-white hover:bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
                     >
                       Review
                     </button>
