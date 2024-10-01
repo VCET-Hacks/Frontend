@@ -1,36 +1,25 @@
-import electron, { app, BrowserWindow } from "electron";
-import path from "path";
-if (typeof electron === "string") {
+import t, { app as n, BrowserWindow as i } from "electron";
+import a from "path";
+if (typeof t == "string")
   throw new TypeError("Not running in an Electron environment!");
-}
-const { env } = process;
-const isEnvSet = "ELECTRON_IS_DEV" in env;
-const getFromEnv = Number.parseInt(env.ELECTRON_IS_DEV, 10) === 1;
-const isDev = isEnvSet ? getFromEnv : !electron.app.isPackaged;
-function createWindow() {
-  const win = new BrowserWindow({
+const { env: r } = process, c = "ELECTRON_IS_DEV" in r, l = Number.parseInt(r.ELECTRON_IS_DEV, 10) === 1, o = c ? l : !t.app.isPackaged;
+function s() {
+  const e = new i({
     width: 1100,
     height: 700,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: !0,
+      contextIsolation: !1
     }
   });
-  win.loadURL(
-    isDev ? "http://localhost:5173" : `file://${path.join(__dirname, "../dist/index.html")}`
-  );
-  if (isDev) {
-    win.webContents.openDevTools();
-  }
+  e.loadURL(
+    o ? "http://localhost:5173" : `file://${a.join(__dirname, "../dist/index.html")}`
+  ), o && e.webContents.openDevTools();
 }
-app.whenReady().then(createWindow);
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+n.whenReady().then(s);
+n.on("window-all-closed", () => {
+  process.platform !== "darwin" && n.quit();
 });
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+n.on("activate", () => {
+  i.getAllWindows().length === 0 && s();
 });
