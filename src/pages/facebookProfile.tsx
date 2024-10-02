@@ -201,6 +201,7 @@ export default function FBDashboard() {
   };
 
   return (
+<<<<<<< Updated upstream
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 backdrop-blur-md z-50">
@@ -209,10 +210,13 @@ export default function FBDashboard() {
           </div>
         </div>
       )}
+=======
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+>>>>>>> Stashed changes
       {/* Left Sidebar */}
       <button
         onClick={getToxicity}
-        className="fixed bottom-5 right-5  z-30 flex items-center justify-start gap-2 w-fit pr-5 h-10 bg-black rounded-full text-white hover:text-black font-semibold border-none cursor-pointer shadow-md pl-2 transition-all duration-300 hover:bg-[#C0FF14] hover:opacity-80 active:scale-95"
+        className="fixed bottom-5 right-5 z-30 flex items-center justify-start gap-2 w-fit pr-5 h-10 bg-black rounded-full text-white hover:text-black font-semibold border-none cursor-pointer shadow-md pl-2 transition-all duration-300 hover:bg-[#C0FF14] hover:opacity-80 active:scale-95"
       >
         <svg
           className="h-6 transition-transform duration-150"
@@ -228,8 +232,8 @@ export default function FBDashboard() {
         {loading ? "Reviewing..." : "Panchanama.ai"}
       </button>
 
-      <aside className="w-64 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-r border-gray-200">
-        <div className="font-bold text-4xl mb-6 text-black uppercase">
+      <aside className="w-full lg:w-64 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-b lg:border-r border-gray-200 lg:h-screen">
+        <div className="font-bold text-2xl lg:text-4xl mb-6 text-black uppercase">
           Report
         </div>
         <nav className="space-y-2">
@@ -276,7 +280,7 @@ export default function FBDashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-4 overflow-y-auto">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-full md:max-w-2xl mx-auto">
           <div className="mb-4 relative shadow-sm">
             <Input
               className="pl-10 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200"
@@ -389,7 +393,7 @@ export default function FBDashboard() {
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-80 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-l border-gray-200">
+      <aside className="w-full lg:w-80 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-t lg:border-l border-gray-200 lg:h-screen">
         <Card className="bg-gradient-to-br from-blue-100 to-purple-100 border-gray-200">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center">
@@ -409,24 +413,25 @@ export default function FBDashboard() {
                 {userData.name}
               </h2>
               <p className="text-sm text-gray-600">@{userData.id}</p>
-              <div className="mt-4 flex space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-gray-700 border-gray-300 hover:bg-gray-100"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formatDate(userData.birthday)}
-                </Button>
+            </div>
+            <div className="flex justify-around mt-6">
+              <div>
+                <p className="text-sm font-semibold text-gray-700">509</p>
+                <p className="text-sm text-gray-500">Following</p>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-700">2345</p>
+                <p className="text-sm text-gray-500">Followers</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-gray-200">
+        <Card className="border-gray-200 bg-white">
           <CardHeader>
-            <CardTitle className="text-gray-900">Performance</CardTitle>
+            <CardTitle className="text-gray-900">Trends for you</CardTitle>
           </CardHeader>
           <CardContent>
+<<<<<<< Updated upstream
             <div className="space-y-3">
               <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
                 <span className="text-gray-700">Finished</span>
@@ -445,6 +450,37 @@ export default function FBDashboard() {
                 <span className="font-medium text-blue-600">93% (+12%)</span>
               </div>
             </div>
+=======
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  className="flex justify-between hover:bg-gray-100 p-2 rounded transition-all"
+                >
+                  <span>#MeToo</span>
+                  <span className="text-sm text-gray-500">1.2M Tweets</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="flex justify-between hover:bg-gray-100 p-2 rounded transition-all"
+                >
+                  <span>#FridayVibes</span>
+                  <span className="text-sm text-gray-500">350K Tweets</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="flex justify-between hover:bg-gray-100 p-2 rounded transition-all"
+                >
+                  <span>#NationalPuppyDay</span>
+                  <span className="text-sm text-gray-500">200K Tweets</span>
+                </a>
+              </li>
+            </ul>
+>>>>>>> Stashed changes
           </CardContent>
         </Card>
       </aside>

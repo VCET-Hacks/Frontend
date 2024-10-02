@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom"
+import Logo from "../../assets/Logo.svg"
 
 
 const navigation = [
@@ -29,8 +30,8 @@ export default function HeroSection() {
               <span className="sr-only">Your Company</span>
               <img
                 alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
+                src={Logo}
+                className="h-[50px] w-[50px]"
               />
             </a>
           </div>
@@ -76,7 +77,7 @@ export default function HeroSection() {
                 <span className="sr-only">Your Company</span>
                 <img
                   alt=""
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                  src="/Logo.svg"
                   className="h-8 w-auto"
                 />
               </a>

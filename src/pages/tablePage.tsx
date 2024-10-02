@@ -116,9 +116,9 @@ export default function UserTable() {
   };
 
   return (
-    <div className="flex h-1/2 p-7 w-full bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="flex flex-col lg:flex-row h-auto p-4 lg:p-7 w-full bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Sidebar */}
-      <div className="w-56 bg-white shadow-2xl overflow-y-auto  p-6 rounded-xl h-fit mr-5">
+      <div className="w-full lg:w-56 bg-white shadow-2xl overflow-y-auto p-6 rounded-xl h-fit mb-4 lg:mb-0 lg:mr-5">
         <h2 className="text-lg font-bold mb-4 uppercase">Filters</h2>
         <div className="space-y-4">
           {["Lists", "Contact", "Company"].map((filter) => (
@@ -140,27 +140,32 @@ export default function UserTable() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 p-6 overflow-hidden bg-white shadow-2xl rounded-xl">
+      <div className="flex-1 p-4 lg:p-6 overflow-hidden bg-white shadow-2xl rounded-xl">
         <h2 className="text-xl font-normal">Panchanama</h2>
         <h2 className="text-4xl font-bold uppercase mb-7">Reported Users</h2>
-        <div className="mb-4 flex justify-between items-center">
+
+        {/* Filter and Buttons */}
+        <div className="mb-4 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <Input
             placeholder="Filter results..."
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="max-w-sm"
+            className="w-full lg:max-w-sm"
           />
-          <div className="space-x-2">
-            <Button variant="outline">Store</Button>
-            <Button>Search </Button>
+          <div className="space-x-2 w-full lg:w-auto flex flex-col lg:flex-row gap-2">
+            <Button variant="outline" className="w-full lg:w-auto">
+              Store
+            </Button>
+            <Button className="w-full lg:w-auto">Search</Button>
           </div>
         </div>
 
-        <ScrollArea className="h-[calc(100vh-12rem)]">
-          <Table>
+        {/* Scrollable Table */}
+        <ScrollArea className="h-[calc(100vh-16rem)] lg:h-[calc(100vh-12rem)] overflow-x-auto">
+          <Table className="min-w-full text-left">
             <TableHeader className="rounded-xl overflow-clip">
               <TableRow className="bg-[#f4f4f5] rounded-xl shadow-md">
-                <TableHead className="flex-1 ">
+                <TableHead className="w-[50px]">
                   <Checkbox
                     checked={selectedUsers.length === filteredUsers.length}
                     onCheckedChange={() =>
@@ -172,29 +177,51 @@ export default function UserTable() {
                     }
                   />
                 </TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Violation Type</TableHead>
-                <TableHead>Description</TableHead>
+
+                {/* Columns Visible on Large Screens Only */}
+                <TableHead className="hidden lg:table-cell">Name</TableHead>
+                <TableHead className="hidden lg:table-cell">Location</TableHead>
+                <TableHead className="hidden lg:table-cell">
+                  Violation Type
+                </TableHead>
+                <TableHead className="hidden lg:table-cell">
+                  Description
+                </TableHead>
+
+                {/* Always Visible Columns */}
                 <TableHead>Platforms</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user.id} className="border-b">
                   <TableCell>
                     <Checkbox
                       checked={selectedUsers.includes(user.id)}
                       onCheckedChange={() => toggleUserSelection(user.id)}
                     />
                   </TableCell>
+<<<<<<< Updated upstream
                   <TableCell>{user.name}</TableCell>
                   <TableCell>Developer</TableCell>
                   <TableCell>
                     <Badge>Google</Badge>
+=======
+
+                  {/* Data Hidden on Small Screens */}
+                  <TableCell className="hidden lg:table-cell">
+                    {user.name}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden lg:table-cell">
+                    {user.position}
+                  </TableCell>
+                  <TableCell className="hidden lg:table-cell">
+                    <Badge>{user.company}</Badge>
+>>>>>>> Stashed changes
+                  </TableCell>
+                  <TableCell className="hidden lg:table-cell">
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <p>
@@ -213,25 +240,21 @@ export default function UserTable() {
                       </TooltipContent>
                     </Tooltip>
                   </TableCell>
+
+                  {/* Always Visible Data */}
                   <TableCell>
                     <div className="flex space-x-2">
                       <FaFacebookSquare className="w-4 h-4" />
                       <FaTelegram className="w-4 h-4" />
                       <IoLogoWhatsapp className="w-4 h-4" />
-                      {/* <Linkedin /> */}
-
-                      {/* <Mail className="w-4 h-4" /> */}
-                      {/* <Phone className="w-4 h-4" /> */}
-                      {/* <MessageSquare className="w-4 h-4" /> */}
                       <FaXTwitter className="w-4 h-4" />
                     </div>
                   </TableCell>
-                  {/* <TableCell>{user.location}</TableCell> */}
                   <TableCell>
                     <button
                       onClick={() => navigate(`/facebook-dashboard/${user.id}`)}
                       type="button"
-                      className="bg-white hover:bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
+                      className="bg-white hover:bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] hover:text-bold text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                     >
                       Review
                     </button>
