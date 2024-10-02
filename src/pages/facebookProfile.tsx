@@ -313,7 +313,7 @@ export default function FBDashboard() {
               </div>
             </div>
 
-            <TabsContent value="tweets">
+            <TabsContent value="tweets" className="h-[20vh]">
               {userPosts.map((post) => (
                 <Card
                   onClick={() => onSelected(post)}
