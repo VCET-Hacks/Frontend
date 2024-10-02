@@ -203,12 +203,6 @@ export default function UserTable() {
                       onCheckedChange={() => toggleUserSelection(user.id)}
                     />
                   </TableCell>
-<<<<<<< Updated upstream
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>Developer</TableCell>
-                  <TableCell>
-                    <Badge>Google</Badge>
-=======
 
                   {/* Data Hidden on Small Screens */}
                   <TableCell className="hidden lg:table-cell">
@@ -219,7 +213,6 @@ export default function UserTable() {
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
                     <Badge>{user.company}</Badge>
->>>>>>> Stashed changes
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
                     <Tooltip>

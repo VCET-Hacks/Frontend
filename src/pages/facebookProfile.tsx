@@ -201,18 +201,7 @@ export default function FBDashboard() {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 backdrop-blur-md z-50">
-          <div className="loader">
-            <span>Loading</span>
-          </div>
-        </div>
-      )}
-=======
     <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
->>>>>>> Stashed changes
       {/* Left Sidebar */}
       <button
         onClick={getToxicity}
@@ -431,26 +420,6 @@ export default function FBDashboard() {
             <CardTitle className="text-gray-900">Trends for you</CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< Updated upstream
-            <div className="space-y-3">
-              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
-                <span className="text-gray-700">Finished</span>
-                <span className="font-medium text-green-600">
-                  18 (+8 tasks)
-                </span>
-              </div>
-              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
-                <span className="text-gray-700">Tracked</span>
-                <span className="font-medium text-yellow-600">
-                  31h (-6 hours)
-                </span>
-              </div>
-              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
-                <span className="text-gray-700">Efficiency</span>
-                <span className="font-medium text-blue-600">93% (+12%)</span>
-              </div>
-            </div>
-=======
             <ul className="space-y-3">
               <li>
                 <a
@@ -480,7 +449,6 @@ export default function FBDashboard() {
                 </a>
               </li>
             </ul>
->>>>>>> Stashed changes
           </CardContent>
         </Card>
       </aside>
