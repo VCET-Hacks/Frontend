@@ -1,4 +1,3 @@
-import React from "react";
 import HeroSection from "@/components/others/HeroSection";
 import FeatureSection from "@/components/others/FeatureSecton";
 import FeatureSection2 from "@/components/others/FeatureSection2";

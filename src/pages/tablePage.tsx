@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -31,46 +31,83 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { generic } from "@/utils/generic";
 
 // Mock data for demonstration
-const users = [
-  {
-    id: 122100353528550580,
-    name: "Steve Fernandes",
-    position: "Mumbai",
-    description:
-      "Person constantly talks badly about people and other agencies",
-    company: "Hate Speech",
-    location: "Hate Speech",
-    connections: 110,
-  },
-  {
-    id: 12210035352855058,
-    name: "Steve Fernandes",
-    position: "Mumbai",
-    description:
-      "Person constantly talks badly about people and other agencies",
-    company: "Hate Speech",
-    location: "Hate Speech",
-    connections: 110,
-  },
-  // Add more user data here...
-];
+// const users = [
+//   {
+//     id: 122100353528550580,
+//     name: "Steve Fernandes",
+//     position: "Mumbai",
+//     description:
+//       "Person constantly talks badly about people and other agencies",
+//     company: "Hate Speech",
+//     location: "Hate Speech",
+//     connections: 110,
+//   },
+//   {
+//     id: 12210035352855058,
+//     name: "Steve Fernandes",
+//     position: "Mumbai",
+//     description:
+//       "Person constantly talks badly about people and other agencies",
+//     company: "Hate Speech",
+//     location: "Hate Speech",
+//     connections: 110,
+//   },
+//   // Add more user data here...
+// ];
+
+type UserType = {
+  picture: {
+    data: {
+      height: number;
+      is_silhouette: boolean;
+      url: string;
+      width: number;
+    };
+  };
+  name: string;
+  short_name: string;
+  birthday: string;
+  id: string;
+};
 
 export default function UserTable() {
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [filter, setFilter] = useState("");
   const navigate = useNavigate();
 
   const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(filter.toLowerCase()) ||
-      user.position.toLowerCase().includes(filter.toLowerCase()) ||
-      user.company.toLowerCase().includes(filter.toLowerCase()) ||
-      user.location.toLowerCase().includes(filter.toLowerCase())
+    (user) => user.name.toLowerCase().includes(filter.toLowerCase())
+    // user.position.toLowerCase().includes(filter.toLowerCase()) ||
+    // user.company.toLowerCase().includes(filter.toLowerCase()) ||
+    // user.location.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const toggleUserSelection = (userId: number) => {
+  useEffect(() => {
+    fetch(
+      `https://graph.facebook.com/v20.0/me?fields=id%2Cname&access_token=${generic}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: UserType) => {
+        setUsers([data]);
+      });
+  }, []);
+
+  const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
       prev.includes(userId)
         ? prev.filter((id) => id !== userId)
@@ -153,17 +190,26 @@ export default function UserTable() {
                     />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.position}</TableCell>
+                  <TableCell>Developer</TableCell>
                   <TableCell>
-                    <Badge>{user.company}</Badge>
+                    <Badge>Google</Badge>
                   </TableCell>
                   <TableCell>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <p>{user.description.slice(0, 45) + "..."}</p>
+                        <p>
+                          {"Always late at doing his work and never is on time ever".slice(
+                            0,
+                            45
+                          ) + "..."}
+                        </p>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>{user.description}</p>
+                        <p>
+                          {
+                            "Always late at doing his work and never is on time ever"
+                          }
+                        </p>
                       </TooltipContent>
                     </Tooltip>
                   </TableCell>

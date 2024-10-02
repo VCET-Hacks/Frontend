@@ -1,3 +1,4 @@
+import { PrintComponent } from "@/components/print/printRefs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatTimeAgo } from "@/utils/dateago";
 import { formatDate } from "@/utils/dateformat";
+import { usePDF } from "react-to-pdf";
 import {
   CalendarIcon,
   HomeIcon,
@@ -14,34 +16,40 @@ import {
   BellIcon,
   SearchIcon,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { generic } from "@/utils/generic";
+
+type PostsTypes = {
+  created_time: string;
+  id: string;
+  message?: string;
+};
+
+type ToxicityType = {
+  label: "toxic";
+  score: number;
+};
+
+type UserType = {
+  picture: {
+    data: {
+      height: number;
+      is_silhouette: boolean;
+      url: string;
+      width: number;
+    };
+  };
+  name: string;
+  short_name: string;
+  birthday: string;
+  id: string;
+};
 
 export default function FBDashboard() {
-  const userPosts = [
-    {
-      created_time: "2024-10-01T15:17:16+0000",
-      id: "122100353528550580_122100664412550580",
-    },
-    {
-      created_time: "2024-10-01T10:50:09+0000",
-      message: "This hackathon is teaching us a lot",
-      id: "122100353528550580_122100464114550580",
-    },
-    {
-      created_time: "2024-10-01T08:19:57+0000",
-      message: "This hackathon is lit",
-      id: "122100353528550580_122100379754550580",
-    },
-    {
-      created_time: "2024-10-01T07:36:40+0000",
-      message: "Yabe dabi dooo",
-      id: "122100353528550580_122100356852550580",
-    },
-    {
-      created_time: "2002-12-18T08:00:00+0000",
-      id: "122100353528550580_122100337370550580",
-    },
-  ];
-  const userData = {
+  const { id } = useParams();
+  console.log(id);
+  const [userData, setUserData] = useState<UserType>({
     picture: {
       data: {
         height: 50,
@@ -54,43 +62,153 @@ export default function FBDashboard() {
     short_name: "Steve",
     birthday: "12/18/2002",
     id: "122100353528550580",
-  };
+  });
+  const [userPosts, setUserPosts] = useState<PostsTypes[]>([]);
+  // const userPosts = [
+  //   {
+  //     created_time: "2024-10-01T15:17:16+0000",
+  //     id: "122100353528550580_122100664412550580",
+  //   },
+  //   {
+  //     created_time: "2024-10-01T10:50:09+0000",
+  //     message: "This hackathon is teaching us a lot",
+  //     id: "122100353528550580_122100464114550580",
+  //   },
+  //   {
+  //     created_time: "2024-10-01T08:19:57+0000",
+  //     message: "This hackathon is lit",
+  //     id: "122100353528550580_122100379754550580",
+  //   },
+  //   {
+  //     created_time: "2024-10-01T07:36:40+0000",
+  //     message: "Yabe dabi dooo",
+  //     id: "122100353528550580_122100356852550580",
+  //   },
+  //   {
+  //     created_time: "2002-12-18T08:00:00+0000",
+  //     id: "122100353528550580_122100337370550580",
+  //   },
+  // ];
+  const [loading, setLoading] = useState(false);
+  const [selectedPosts, setSelectedPosts] = useState<PostsTypes[]>([]);
+
+  useEffect(() => {
+    fetch(
+      `https://graph.facebook.com/v20.0/${id}/posts?access_token=${generic}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: { data: PostsTypes[] }) => {
+        setUserPosts(data.data);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    fetch(
+      `https://graph.facebook.com/v20.0/${id}?fields=picture,name,short_name,birthday%2Cname&access_token=${generic}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data: UserType) => {
+        setUserData(data);
+      });
+  }, [id]);
 
   const getToxicity = () => {
-    console.log(
-      JSON.stringify({
-        sentences: userPosts
-          .map((post) => post.message)
-          .filter((message) => message !== null), // Filter out null messages
-      })
-    );
+    setLoading(true);
     fetch("http://localhost:5000/classify", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Add Content-Type header
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sentences: userPosts
-          .map((post) => post.message || "")
-          .filter((message) => message !== null), // Filter out null messages
+        sentences: userPosts.map((post) => post.message || ""),
       }),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok"); // Handle network errors
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data: ToxicityType[]) => {
+        data.map((sing, idx: number) => {
+          if (sing.score > 0.75) {
+            setSelectedPosts((prev) => {
+              const postAlreadyExists = prev.some(
+                (selectedPost) => selectedPost.id === userPosts[idx].id
+              );
+              if (!postAlreadyExists) {
+                return [...prev, userPosts[idx]]; // Add the post only if it's not in selectedPosts
+              }
+              return prev; // Do nothing if post already exists
+            });
+          }
+        });
         console.log(data); // Handle the returned data
       })
       .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error); // Handle any errors
+        console.error("There was a problem with the fetch operation:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
+  };
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+
+  const printPDF = () => {
+    setLoading(true);
+    targetRef.current.style.display = "block";
+    toPDF();
+    targetRef.current.style.display = "none";
+    setTimeout(() => setLoading(false), 2500);
+  };
+
+  const onSelected = (data: PostsTypes) => {
+    console.log(selectedPosts);
+    setSelectedPosts((prevSelectedPosts) => {
+      // Check if the post already exists in the selectedPosts
+      const postExists = prevSelectedPosts.some((post) => post.id === data.id);
+
+      if (postExists) {
+        // If it exists, remove it from the array
+        return prevSelectedPosts.filter((post) => post.id !== data.id);
+      } else {
+        // If it doesn't exist, add it to the array
+        return [...prevSelectedPosts, data]; // Assuming data is the post object
+      }
+    });
   };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 backdrop-blur-md z-50">
+          <div className="loader">
+            <span>Loading</span>
+          </div>
+        </div>
+      )}
       {/* Left Sidebar */}
       <button
         onClick={getToxicity}
@@ -107,7 +225,7 @@ export default function FBDashboard() {
             className="fill-[#fff] hover:fill[#000]"
           />
         </svg>
-        Panchanama.ai
+        {loading ? "Reviewing..." : "Panchanama.ai"}
       </button>
 
       <aside className="w-64 bg-white bg-opacity-80 backdrop-blur-lg p-4 space-y-4 border-r border-gray-200">
@@ -166,35 +284,44 @@ export default function FBDashboard() {
             />
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          {/* <Card className="mb-4 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200">
-            <CardContent className="pt-4">
-              <Input
-                className="mb-2 bg-gray-50"
-                placeholder="What's happening?"
-              />
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700">
-                Tweet
-              </Button>
-            </CardContent>
-          </Card> */}
           <Tabs defaultValue="tweets" className="w-full">
-            <TabsList className="bg-white bg-opacity-80 backdrop-blur-lg border-b border-gray-200">
-              <TabsTrigger
-                value="tweets"
-                className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-black"
-              >
-                Tweets
-              </TabsTrigger>
-              <TabsTrigger
-                value="tasks"
-                className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-black"
-              >
-                Tasks
-              </TabsTrigger>
-            </TabsList>
+            <div className="flex flex-row justify-between items-center">
+              <TabsList className="bg-white bg-opacity-80 backdrop-blur-lg border-b border-gray-200">
+                <TabsTrigger
+                  value="tweets"
+                  className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-black"
+                >
+                  Tweets
+                </TabsTrigger>
+                <TabsTrigger
+                  value="tasks"
+                  className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-black"
+                >
+                  Tasks
+                </TabsTrigger>
+              </TabsList>
+              <div className="flex flex-row gap-5 items-center">
+                <p>
+                  Selected {selectedPosts.length} of {userPosts.length}
+                </p>
+                <Button
+                  onClick={printPDF}
+                  disabled={selectedPosts.length === 0}
+                >
+                  Print
+                </Button>
+              </div>
+            </div>
+
             <TabsContent value="tweets">
               {userPosts.map((post) => (
-                <Card className="mb-4 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <Card
+                  onClick={() => onSelected(post)}
+                  className={`mb-4 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200 hover:shadow-md transition-all border border-transparent duration-200 ${
+                    selectedPosts.some((data) => post.id === data.id) &&
+                    " bg-red-50 border-black shadow-2xl"
+                  }`}
+                >
                   <CardHeader>
                     <div className="flex justify-between">
                       <div className="flex items-center">
@@ -227,57 +354,6 @@ export default function FBDashboard() {
                   </CardContent>
                 </Card>
               ))}
-              <Card className="mb-4 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200 hover:shadow-md transition-shadow duration-200">
-                <CardHeader>
-                  <div className="flex items-center">
-                    <Avatar className="h-10 w-10 border-2 border-blue-400">
-                      <AvatarImage
-                        src={userData.picture.data.url}
-                        alt="Avatar"
-                      />
-                      <AvatarFallback>
-                        {userData.name
-                          .split(" ")
-                          .map((part) => part[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">
-                        {userData.name}
-                      </p>
-                      <p className="text-xs text-gray-500">@megnorton</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700">
-                    Track team progress here. You almost reach a goal! 🎉
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="mb-4 bg-white bg-opacity-80 backdrop-blur-lg border-gray-200 hover:shadow-md transition-shadow duration-200">
-                <CardHeader>
-                  <div className="flex items-center">
-                    <Avatar className="h-10 w-10 border-2 border-green-400">
-                      <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                      <AvatarFallback>FM</AvatarFallback>
-                    </Avatar>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">
-                        Floyd Miles
-                      </p>
-                      <p className="text-xs text-gray-500">@floydmiles</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700">
-                    Hi! Next week we'll start a new project. I'll tell you all
-                    the details later 📊
-                  </p>
-                </CardContent>
-              </Card>
             </TabsContent>
             <TabsContent value="tasks">
               <Card className="bg-white bg-opacity-80 backdrop-blur-lg border-gray-200">
@@ -352,19 +428,19 @@ export default function FBDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex justify-between items-center p-2 rounded bg-white bg-opacity-60">
+              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
                 <span className="text-gray-700">Finished</span>
                 <span className="font-medium text-green-600">
                   18 (+8 tasks)
                 </span>
               </div>
-              <div className="flex justify-between items-center p-2 rounded bg-white bg-opacity-60">
+              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
                 <span className="text-gray-700">Tracked</span>
                 <span className="font-medium text-yellow-600">
                   31h (-6 hours)
                 </span>
               </div>
-              <div className="flex justify-between items-center p-2 rounded bg-white bg-opacity-60">
+              <div className="flex justify-between items-center p-2 rounded  bg-opacity-60">
                 <span className="text-gray-700">Efficiency</span>
                 <span className="font-medium text-blue-600">93% (+12%)</span>
               </div>
@@ -372,6 +448,11 @@ export default function FBDashboard() {
           </CardContent>
         </Card>
       </aside>
+      <PrintComponent
+        ref={targetRef}
+        author={userData}
+        selectedPosts={selectedPosts}
+      />
     </div>
   );
 }
